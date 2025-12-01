@@ -62,4 +62,12 @@ public class Player {
             hand.add(card);
 
     }
+
+    public List<Card> getHand() {
+        return hand;
+    }
+    //set hand
+    public void setHand(Card card) {
+        hand.add(card);
+    }
 }

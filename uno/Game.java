@@ -13,12 +13,13 @@ public class Game {
     private int currentPlayerIndex;
     private int direction;
     private Card currentCard;
+    private Color currentColor;
     private Stack<Card> discardPile;
 
     // constructeur
     public Game(List<Player> players) {
         this.players = players;
-        this.direction = 1; // 1 pour sens horaire, -1 pour sens antihoraire
+        this.direction = 1; 
         this.currentPlayerIndex = 0;
         this.deck = new Deck();
         this.discardPile = new Stack<>();
@@ -37,10 +38,10 @@ public class Game {
     private void createHand() {
         for (Player p : players) {
             for (int i = 0; i < 7; i++) {
-                p.hand.add(deck.drawing());
+                p.setHand(deck.drawing());
             }
         }
-    }
+    }//refaire//
 
     private void createPlayers() {
         for (int i = 1; i <= 4; i++) {
