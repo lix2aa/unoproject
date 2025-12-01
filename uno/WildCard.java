@@ -1,11 +1,11 @@
 package uno;
+import uno.constants.Color;
 
 public class WildCard extends Card implements Actionable {
 
-    public WildCard() {
-        super(null); // Les Wild n’ont pas de couleur à la base
+    public WildCard(Color color) {
+        super(color); 
     }
-
   
 
     @Override

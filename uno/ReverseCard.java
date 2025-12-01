@@ -1,6 +1,5 @@
 package uno;
 
-
 import uno.constants.Color;
 
 public class ReverseCard extends Card implements Actionable {

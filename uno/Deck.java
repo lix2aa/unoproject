@@ -23,74 +23,116 @@
 //         Collections.shuffle(cards);
 //     }
 
-//     public void refill(List<Card> newCards) {
-//         cards.addAll(newCards);
-//     }
+//   
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 package uno;
-import java.util.Collection;
-import java.util.Random;
+
 import java.util.Stack;
+import uno.constants.Color;
 
 public class Deck {
   private Stack<Card> deck;
-  private boolean isEmpty;
+  boolean isEmpty;
 
-  public Deck(){
-    //contructor
-    deck = new Stack<>();//we dont use this.deck cause we have only one deck
-    Createpacket();
-    isEmpty = false;
+  public void Createpacket() {
+    Color[] colors = Color.values();
+
+    for (int i = 0; i < colors.length; i++) {
+
+      Color color = colors[i];
+
+      for (int j = 1; j < 10; j++) {
+        Card card1 = new NumberCard(color, j);
+        Card card2 = new NumberCard(color, j);
+        deck.push(card1);
+        deck.push(card2);
+      }
+
+      for (int k = 0; k < 2; k++) {
+        Card skip = new SkipCard(color);
+        Card draw2 = new Draw2Card(color);
+        Card reverse = new ReverseCard(color);
+        deck.push(draw2);
+        deck.push(skip);
+        deck.push(reverse);
+      }
+    }
+
+    for (int i = 0; i < 4; i++) {
+      Card wild = new WildCard(Color.NONE);
+      Card draw4 = new WildDrawCard(Color.NONE);
+      deck.push(wild);
+      deck.push(draw4);
+    }
+
   }
-  public void Createpacket(){
-    //
-    // we create the stack then we push in it the cards 
-    // as follows :
-    // a loop we will enter rendomly picked cards into a stack , (numbers )
-    // a second loop to enter special gards with the first one (randomly)
-    //then we have a stack full of everything
-    
+
+  public Card drawing() {
+    if (!EmptyDeck()) {
+      Card c = deck.pop();
+      return c;
+    }
+    return null;
+  
   }
-  public Card drawing(){
-    //check is the deck isnt empty 
-    // if not then pop a card from the stack
-    //a card + (we take -1 from the list)
-    
+
+  public void Shuffle() {
+    Stack<Card> shuffledDeck = new Stack<>();
+    while (!deck.isEmpty()) {
+      int randomIndex = (int) (Math.random() * deck.size());
+      Stack<Card> tempStack = new Stack<>();
+      for (int i = 0; i < randomIndex; i++) {
+        tempStack.push(deck.pop());
+      }
+      shuffledDeck.push(deck.pop());
+      while (!tempStack.isEmpty()) {
+        deck.push(tempStack.pop());
+      }
+    }
+    deck = shuffledDeck;
   }
-  public void Melanger(){
-    //(sugggests we use collections(chatgpt))
-    Collections.shuffle(deck);
+
+  public boolean EmptyDeck() {
+    if (deck == null) {
+      return true;
+    } else {
+      return false;
+    }
   }
-  public boolean EmptyDeck(){
-    //if the stack is null then the deck is empty and we change the boolean
-    // that is isEmpty
-    return isEmpty;
+  // refill
+  public void refillDeck(Stack<Card> discardPile) {
+    Card topCard = discardPile.pop();
+    while (!discardPile.isEmpty()) {
+      deck.push(discardPile.pop());
+    }
+    discardPile.push(topCard);
   }
+  // melanger avec random
+  public void melanger(Stack<Card> deck) {
+
+    Stack<Card> s1 = new Stack<>();
+    Stack<Card> s2 = new Stack<>();
+    Random rand = new Random();
+
+    // Séparer  dans s1 et s2
+    while (!deck.isEmpty()) {
+        if (rand.nextBoolean()) {
+            s1.push(deck.pop());
+        } else {
+            s2.push(deck.pop());
+        }
+    }
+
+    // Étape 2 : mélanger encore une fois
+    while (!s1.isEmpty() || !s2.isEmpty()) {
+        // Choisir aléatoirement une pile
+        if (!s1.isEmpty() && rand.nextBoolean()) {
+            deck.push(s1.pop());
+        } else if (!s2.isEmpty()) {
+            deck.push(s2.pop());
+        }
+    }
+}
 
 }

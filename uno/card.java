@@ -1,9 +1,11 @@
 package uno;
+
 import uno.constants.Color;
 
 public abstract class Card {
     private Color color;
 
+    // @Override
     public abstract String toString();
 
     public Card(Color color) {

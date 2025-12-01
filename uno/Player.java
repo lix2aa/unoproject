@@ -8,6 +8,8 @@ public class Player {
 
     private String name;
     private List<Card> hand;
+    private int handsize;
+    private boolean saidUno;
     private Color choiceColor;
 
     public Color getChoiceColor() {
@@ -55,7 +57,7 @@ public class Player {
     }
 
     public void Draw(Game game) {
-        Card card = game.drawCard();
+        Card card = Game.drawCard(game);
         if (card != null)
             hand.add(card);
 
